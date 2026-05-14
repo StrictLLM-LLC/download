@@ -1,1 +1,711 @@
-Download Page
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StrictLLM Downloads</title>
+    <meta
+      name="description"
+      content="Automatic download routing for the latest StrictLLM desktop release."
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --surface: rgba(255, 251, 245, 0.9);
+        --surface-strong: #fffdfa;
+        --surface-muted: rgba(72, 52, 29, 0.08);
+        --ink: #1f1a17;
+        --muted: #6f655d;
+        --line: rgba(72, 52, 29, 0.14);
+        --accent: #b64a25;
+        --accent-strong: #8c2f15;
+        --accent-soft: rgba(182, 74, 37, 0.12);
+        --shadow: 0 24px 80px rgba(87, 52, 19, 0.12);
+        --radius-xl: 28px;
+        --radius-lg: 18px;
+        --radius-md: 14px;
+        --max: 1120px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(255, 214, 153, 0.55), transparent 36%),
+          radial-gradient(circle at top right, rgba(182, 74, 37, 0.2), transparent 28%),
+          linear-gradient(180deg, #f7f2ea 0%, #efe4d5 100%);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .page {
+        width: min(calc(100% - 32px), var(--max));
+        margin: 0 auto;
+        padding: 24px 0 56px;
+      }
+
+      .hero {
+        position: relative;
+        overflow: hidden;
+        padding: 28px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        background: linear-gradient(145deg, rgba(255, 252, 247, 0.95), rgba(248, 236, 223, 0.92));
+        box-shadow: var(--shadow);
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -12% -35% auto;
+        width: 320px;
+        height: 320px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(182, 74, 37, 0.18), transparent 70%);
+        pointer-events: none;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-strong);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 18px 0 10px;
+        max-width: 9ch;
+        font-size: clamp(2.6rem, 6vw, 5rem);
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+      }
+
+      .hero p {
+        max-width: 58ch;
+        margin: 0;
+        font-size: 1.05rem;
+        line-height: 1.65;
+        color: var(--muted);
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
+        gap: 24px;
+        align-items: end;
+      }
+
+      .status-card,
+      .panel,
+      .release-card {
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        background: var(--surface);
+        backdrop-filter: blur(8px);
+      }
+
+      .status-card {
+        padding: 20px;
+      }
+
+      .status-title {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .status-main {
+        margin: 10px 0 0;
+        font-size: 1.7rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      .status-sub {
+        margin: 10px 0 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 22px;
+      }
+
+      .button {
+        appearance: none;
+        border: 0;
+        border-radius: 999px;
+        padding: 14px 18px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      }
+
+      .button:hover {
+        transform: translateY(-1px);
+      }
+
+      .button-primary {
+        background: var(--accent);
+        color: #fff;
+        box-shadow: 0 12px 30px rgba(182, 74, 37, 0.24);
+      }
+
+      .button-secondary {
+        background: var(--surface-strong);
+        color: var(--ink);
+        border: 1px solid var(--line);
+      }
+
+      .section {
+        margin-top: 20px;
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: baseline;
+        margin-bottom: 16px;
+      }
+
+      .section-header h2 {
+        margin: 0;
+        font-size: 1.05rem;
+        letter-spacing: -0.02em;
+      }
+
+      .section-header p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .asset-card {
+        padding: 18px;
+        border-radius: var(--radius-md);
+        background: var(--surface-strong);
+        border: 1px solid var(--line);
+      }
+
+      .asset-card h3 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+      }
+
+      .asset-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .asset-card .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 14px 0 16px;
+      }
+
+      .pill {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: var(--surface-muted);
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .release-list {
+        display: grid;
+        gap: 14px;
+      }
+
+      .release-card {
+        padding: 18px;
+      }
+
+      .release-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: baseline;
+        margin-bottom: 10px;
+      }
+
+      .release-head h3,
+      .release-head p,
+      .release-assets p {
+        margin: 0;
+      }
+
+      .release-head p,
+      .release-assets p,
+      .helper,
+      .error {
+        color: var(--muted);
+      }
+
+      .release-assets {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .release-assets a {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        text-decoration: none;
+        background: var(--surface-strong);
+        border: 1px solid var(--line);
+      }
+
+      .footer {
+        margin-top: 18px;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      .loading,
+      .error {
+        padding: 18px;
+        border-radius: var(--radius-md);
+        background: var(--surface-strong);
+        border: 1px solid var(--line);
+      }
+
+      @media (max-width: 920px) {
+        .hero-grid,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          width: min(calc(100% - 20px), var(--max));
+          padding-top: 10px;
+        }
+
+        .hero,
+        .panel,
+        .release-card {
+          padding: 18px;
+        }
+
+        .release-head,
+        .release-assets a,
+        .section-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow">StrictLLM Desktop</div>
+            <h1>Automatic Downloads</h1>
+            <p>
+              This page resolves the latest public release assets from GitHub and exposes
+              direct installer URLs. It can render a manual download page or redirect
+              straight to the recommended binary for the current machine.
+            </p>
+            <div class="actions">
+              <a class="button button-primary" id="primary-download" href="#">Loading latest build…</a>
+              <a class="button button-secondary" href="?download=1">Auto redirect link</a>
+            </div>
+          </div>
+          <aside class="status-card">
+            <p class="status-title">Detected target</p>
+            <p class="status-main" id="detected-platform">Checking platform…</p>
+            <p class="status-sub" id="detected-copy">
+              The page will choose the latest macOS, Windows, or Linux installer when a
+              matching asset is available.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section panel">
+        <div class="section-header">
+          <h2>Latest Release</h2>
+          <p id="release-summary">Loading published assets…</p>
+        </div>
+        <div id="latest-grid" class="grid">
+          <div class="loading">Fetching release metadata from GitHub…</div>
+        </div>
+      </section>
+
+      <section class="section panel">
+        <div class="section-header">
+          <h2>Published Releases</h2>
+          <p>Direct links for each public version</p>
+        </div>
+        <div id="release-list" class="release-list">
+          <div class="loading">Loading release history…</div>
+        </div>
+      </section>
+
+      <p class="footer" id="footer-copy">
+        Source: GitHub Releases for <a href="https://github.com/StrictLLM-LLC/download">StrictLLM-LLC/download</a>.
+      </p>
+    </main>
+
+    <script>
+      const API_URL = "https://api.github.com/repos/StrictLLM-LLC/download/releases";
+      const params = new URLSearchParams(window.location.search);
+
+      const ui = {
+        primary: document.getElementById("primary-download"),
+        detectedPlatform: document.getElementById("detected-platform"),
+        detectedCopy: document.getElementById("detected-copy"),
+        releaseSummary: document.getElementById("release-summary"),
+        latestGrid: document.getElementById("latest-grid"),
+        releaseList: document.getElementById("release-list"),
+        footerCopy: document.getElementById("footer-copy"),
+      };
+
+      function formatBytes(bytes) {
+        if (!Number.isFinite(bytes) || bytes <= 0) {
+          return "Unknown size";
+        }
+
+        const units = ["B", "KB", "MB", "GB"];
+        let value = bytes;
+        let unitIndex = 0;
+
+        while (value >= 1024 && unitIndex < units.length - 1) {
+          value /= 1024;
+          unitIndex += 1;
+        }
+
+        return `${value.toFixed(value >= 100 || unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`;
+      }
+
+      function formatDate(value) {
+        const date = new Date(value);
+        return Number.isNaN(date.getTime())
+          ? "Unknown publish date"
+          : new Intl.DateTimeFormat(undefined, {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            }).format(date);
+      }
+
+      function detectClientTarget() {
+        const ua = navigator.userAgent;
+        const platform = navigator.platform || "";
+        const maxTouchPoints = navigator.maxTouchPoints || 0;
+        const isMac = /Mac|iPhone|iPad|iPod/.test(platform) || /Mac OS X/.test(ua);
+        const isWindows = /Win/.test(platform) || /Windows/.test(ua);
+        const isLinux = /Linux/.test(platform) || /Linux/.test(ua);
+        const isArm =
+          /arm|aarch64/i.test(ua) ||
+          /arm/i.test(platform) ||
+          (isMac && maxTouchPoints > 1);
+
+        if (isMac) {
+          return {
+            os: "macos",
+            arch: isArm ? "arm64" : "x64",
+            format: "dmg",
+            label: isArm ? "macOS Apple Silicon" : "macOS Intel",
+          };
+        }
+
+        if (isWindows) {
+          return {
+            os: "windows",
+            arch: "x64",
+            format: "exe",
+            label: "Windows 64-bit",
+          };
+        }
+
+        if (isLinux) {
+          return {
+            os: "linux",
+            arch: "x64",
+            format: "appimage",
+            label: "Linux 64-bit",
+          };
+        }
+
+        return {
+          os: "unknown",
+          arch: "unknown",
+          format: "",
+          label: "Unknown platform",
+        };
+      }
+
+      function normalizeAsset(asset) {
+        const name = asset.name || "";
+        const lower = name.toLowerCase();
+
+        if (
+          lower.endsWith(".blockmap") ||
+          lower.endsWith(".yml") ||
+          lower.includes("builder-debug")
+        ) {
+          return null;
+        }
+
+        let os = "other";
+        if (lower.includes("windows")) os = "windows";
+        if (lower.includes("macos")) os = "macos";
+        if (lower.includes("linux")) os = "linux";
+
+        let arch = "unknown";
+        if (lower.includes("arm64")) arch = "arm64";
+        if (lower.includes("x64")) arch = "x64";
+
+        let format = "other";
+        if (lower.endsWith(".dmg")) format = "dmg";
+        if (lower.endsWith(".exe")) format = "exe";
+        if (lower.endsWith(".appimage")) format = "appimage";
+        if (lower.endsWith(".zip")) format = "zip";
+
+        let label = "Download";
+        if (os === "macos" && arch === "arm64" && format === "dmg") label = "macOS Apple Silicon";
+        if (os === "macos" && arch === "x64" && format === "dmg") label = "macOS Intel";
+        if (os === "windows" && format === "exe") label = "Windows Installer";
+        if (os === "linux" && format === "appimage") label = "Linux AppImage";
+        if (os === "macos" && format === "zip") {
+          label = arch === "arm64" ? "macOS Apple Silicon ZIP" : "macOS Intel ZIP";
+        }
+
+        return {
+          name,
+          url: asset.browser_download_url,
+          size: asset.size,
+          downloads: asset.download_count,
+          os,
+          arch,
+          format,
+          label,
+        };
+      }
+
+      function assetPriority(asset) {
+        const key = `${asset.os}:${asset.arch}:${asset.format}`;
+        const priorities = {
+          "macos:arm64:dmg": 1,
+          "macos:x64:dmg": 2,
+          "windows:x64:exe": 3,
+          "linux:x64:appimage": 4,
+          "macos:arm64:zip": 5,
+          "macos:x64:zip": 6,
+        };
+
+        return priorities[key] || 99;
+      }
+
+      function pickAsset(assets, desired) {
+        if (!assets.length) {
+          return null;
+        }
+
+        const target = {
+          os: params.get("os") || desired.os,
+          arch: params.get("arch") || desired.arch,
+          format: params.get("format") || desired.format,
+        };
+
+        const exact = assets.find(
+          (asset) =>
+            asset.os === target.os &&
+            asset.arch === target.arch &&
+            (!target.format || asset.format === target.format)
+        );
+        if (exact) {
+          return exact;
+        }
+
+        const osFallback = assets.find(
+          (asset) =>
+            asset.os === target.os &&
+            (asset.arch === target.arch || target.arch === "unknown")
+        );
+        if (osFallback) {
+          return osFallback;
+        }
+
+        return [...assets].sort((a, b) => assetPriority(a) - assetPriority(b))[0];
+      }
+
+      function renderLatestRelease(release) {
+        const assets = (release.assets || [])
+          .map(normalizeAsset)
+          .filter(Boolean)
+          .sort((a, b) => assetPriority(a) - assetPriority(b));
+
+        if (!assets.length) {
+          ui.latestGrid.innerHTML = '<div class="error">No downloadable assets were found in the latest published release.</div>';
+          return { assets, recommended: null };
+        }
+
+        ui.latestGrid.innerHTML = assets
+          .map(
+            (asset) => `
+              <article class="asset-card">
+                <h3>${asset.label}</h3>
+                <p>${asset.name}</p>
+                <div class="meta">
+                  <span class="pill">${formatBytes(asset.size)}</span>
+                  <span class="pill">${asset.format.toUpperCase()}</span>
+                  <span class="pill">${asset.downloads} downloads</span>
+                </div>
+                <a class="button button-secondary" href="${asset.url}">Direct download</a>
+              </article>
+            `
+          )
+          .join("");
+
+        return {
+          assets,
+          recommended: pickAsset(assets, detectClientTarget()),
+        };
+      }
+
+      function renderReleaseHistory(releases) {
+        ui.releaseList.innerHTML = releases
+          .map((release) => {
+            const assets = (release.assets || [])
+              .map(normalizeAsset)
+              .filter(Boolean)
+              .sort((a, b) => assetPriority(a) - assetPriority(b));
+
+            const assetMarkup = assets.length
+              ? assets
+                  .map(
+                    (asset) => `
+                      <a href="${asset.url}">
+                        <strong>${asset.label}</strong>
+                        <span>${formatBytes(asset.size)}</span>
+                      </a>
+                    `
+                  )
+                  .join("")
+              : '<p class="helper">No installer assets found.</p>';
+
+            return `
+              <article class="release-card">
+                <div class="release-head">
+                  <h3>${release.name || release.tag_name}</h3>
+                  <p>Published ${formatDate(release.published_at)}</p>
+                </div>
+                <div class="release-assets">${assetMarkup}</div>
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      function renderDetectedTarget(recommended) {
+        const detected = detectClientTarget();
+        ui.detectedPlatform.textContent = detected.label;
+
+        if (!recommended) {
+          ui.detectedCopy.textContent =
+            "No matching installer asset was found for this platform in the latest public release.";
+          ui.primary.textContent = "Browse all downloads";
+          ui.primary.href = "#latest-grid";
+          return;
+        }
+
+        ui.detectedCopy.textContent = `Recommended asset: ${recommended.name}`;
+        ui.primary.textContent = `Download ${recommended.label}`;
+        ui.primary.href = recommended.url;
+      }
+
+      async function loadReleases() {
+        const response = await fetch(API_URL, {
+          headers: {
+            Accept: "application/vnd.github+json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`GitHub API request failed with ${response.status}`);
+        }
+
+        const releases = await response.json();
+        return releases.filter((release) => !release.draft && !release.prerelease);
+      }
+
+      async function main() {
+        try {
+          const releases = await loadReleases();
+          if (!releases.length) {
+            throw new Error("No published releases were returned.");
+          }
+
+          const latest = releases[0];
+          const { assets, recommended } = renderLatestRelease(latest);
+          renderReleaseHistory(releases);
+          renderDetectedTarget(recommended);
+
+          ui.releaseSummary.textContent = `${latest.tag_name} published ${formatDate(latest.published_at)}`;
+
+          if (params.get("download") === "1" || params.get("download") === "true") {
+            const redirectAsset = pickAsset(assets, detectClientTarget());
+            if (redirectAsset) {
+              window.location.replace(redirectAsset.url);
+            }
+          }
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error);
+          ui.releaseSummary.textContent = "Unable to load public release data";
+          ui.latestGrid.innerHTML = `<div class="error">${message}</div>`;
+          ui.releaseList.innerHTML = '<div class="error">Release history could not be loaded from GitHub.</div>';
+          ui.primary.textContent = "Open repository";
+          ui.primary.href = "https://github.com/StrictLLM-LLC/download/releases";
+          ui.detectedPlatform.textContent = "Fallback mode";
+          ui.detectedCopy.textContent =
+            "GitHub release metadata could not be loaded. Use the repository releases page directly.";
+        }
+      }
+
+      main();
+    </script>
+  </body>
+</html>
