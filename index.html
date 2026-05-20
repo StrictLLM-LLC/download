@@ -430,6 +430,18 @@
             }).format(date);
       }
 
+      function normalizeDownloadCount(value) {
+        return Number.isFinite(value) && value >= 0 ? value : null;
+      }
+
+      function formatDownloadCount(value) {
+        if (!Number.isFinite(value) || value < 0) {
+          return null;
+        }
+
+        return `${new Intl.NumberFormat().format(value)} GitHub downloads`;
+      }
+
       function detectClientTarget() {
         const ua = navigator.userAgent;
         const platform = navigator.platform || "";
@@ -517,7 +529,7 @@
           name,
           url: asset.browser_download_url,
           size: asset.size,
-          downloads: asset.download_count,
+          downloads: normalizeDownloadCount(asset.download_count),
           os,
           arch,
           format,
@@ -583,26 +595,34 @@
           return { assets, recommended: null };
         }
 
+        const totalDownloads = assets.reduce(
+          (sum, asset) => sum + (Number.isFinite(asset.downloads) ? asset.downloads : 0),
+          0
+        );
+
         ui.latestGrid.innerHTML = assets
-          .map(
-            (asset) => `
+          .map((asset) => {
+            const downloadPill = formatDownloadCount(asset.downloads);
+
+            return `
               <article class="asset-card">
                 <h3>${asset.label}</h3>
                 <p>${asset.name}</p>
                 <div class="meta">
                   <span class="pill">${formatBytes(asset.size)}</span>
                   <span class="pill">${asset.format.toUpperCase()}</span>
-                  <span class="pill">${asset.downloads} downloads</span>
+                  ${downloadPill ? `<span class="pill">${downloadPill}</span>` : ""}
                 </div>
                 <a class="button button-secondary" href="${asset.url}">Direct download</a>
               </article>
             `
-          )
+          })
           .join("");
 
         return {
           assets,
           recommended: pickAsset(assets, detectClientTarget()),
+          totalDownloads,
         };
       }
 
@@ -680,11 +700,13 @@
           }
 
           const latest = releases[0];
-          const { assets, recommended } = renderLatestRelease(latest);
+          const { assets, recommended, totalDownloads } = renderLatestRelease(latest);
           renderReleaseHistory(releases);
           renderDetectedTarget(recommended);
 
-          ui.releaseSummary.textContent = `${latest.tag_name} published ${formatDate(latest.published_at)}`;
+          ui.releaseSummary.textContent =
+            `${latest.tag_name} published ${formatDate(latest.published_at)} • ` +
+            `${new Intl.NumberFormat().format(totalDownloads)} GitHub downloads across installer assets`;
 
           if (params.get("download") === "1" || params.get("download") === "true") {
             const redirectAsset = pickAsset(assets, detectClientTarget());
