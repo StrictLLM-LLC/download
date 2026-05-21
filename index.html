@@ -390,6 +390,7 @@
 
     <script>
       const API_URL = "https://api.github.com/repos/StrictLLM-LLC/download/releases";
+      const DOWNLOAD_ORIGIN = "https://download.strictllm.com";
       const params = new URLSearchParams(window.location.search);
 
       const ui = {
@@ -477,6 +478,23 @@
         };
       }
 
+      function buildFriendlyAssetUrl(asset) {
+        return `${DOWNLOAD_ORIGIN}/${asset.os}-${asset.arch}.${asset.format}`;
+      }
+
+      function parseFriendlyAssetPath(pathname) {
+        const match = pathname.match(/^\/([a-z0-9]+)-([a-z0-9]+)\.([a-z0-9]+)$/i);
+        if (!match) {
+          return null;
+        }
+
+        return {
+          os: match[1].toLowerCase(),
+          arch: match[2].toLowerCase(),
+          format: match[3].toLowerCase(),
+        };
+      }
+
       function normalizeAsset(asset) {
         const name = asset.name || "";
         const lower = name.toLowerCase();
@@ -521,6 +539,7 @@
           arch,
           format,
           label,
+          friendlyUrl: buildFriendlyAssetUrl({ os, arch, format }),
         };
       }
 
@@ -538,15 +557,16 @@
         return priorities[key] || 99;
       }
 
-      function pickAsset(assets, desired) {
+      function pickAsset(assets, desired, options = {}) {
         if (!assets.length) {
           return null;
         }
 
+        const useParams = options.useParams !== false;
         const target = {
-          os: params.get("os") || desired.os,
-          arch: params.get("arch") || desired.arch,
-          format: params.get("format") || desired.format,
+          os: useParams ? params.get("os") || desired.os : desired.os,
+          arch: useParams ? params.get("arch") || desired.arch : desired.arch,
+          format: useParams ? params.get("format") || desired.format : desired.format,
         };
 
         const exact = assets.find(
@@ -592,7 +612,7 @@
                   <span class="pill">${formatBytes(asset.size)}</span>
                   <span class="pill">${asset.format.toUpperCase()}</span>
                 </div>
-                <a class="button button-secondary" href="${asset.url}">Direct download</a>
+                <a class="button button-secondary" href="${asset.friendlyUrl}">Direct download</a>
               </article>
             `
           })
@@ -616,7 +636,7 @@
               ? assets
                   .map(
                     (asset) => `
-                      <a href="${asset.url}">
+                      <a href="${asset.friendlyUrl}">
                         <strong>${asset.label}</strong>
                         <span>${formatBytes(asset.size)}</span>
                       </a>
@@ -652,7 +672,37 @@
 
         ui.detectedCopy.textContent = `Recommended asset: ${recommended.name}`;
         ui.primary.textContent = `Download ${recommended.label}`;
-        ui.primary.href = recommended.url;
+        ui.primary.href = recommended.friendlyUrl;
+      }
+
+      function redirectToFriendlyAsset(assets) {
+        const requestedAsset = parseFriendlyAssetPath(window.location.pathname);
+        if (!requestedAsset) {
+          return false;
+        }
+
+        const matchedAsset = pickAsset(assets, requestedAsset, { useParams: false });
+        if (
+          matchedAsset &&
+          matchedAsset.os === requestedAsset.os &&
+          matchedAsset.arch === requestedAsset.arch &&
+          matchedAsset.format === requestedAsset.format
+        ) {
+          window.location.replace(matchedAsset.url);
+          return true;
+        }
+
+        ui.releaseSummary.textContent = "Requested download is unavailable";
+        ui.latestGrid.innerHTML =
+          '<div class="error">The requested installer could not be matched to a published release asset.</div>';
+        ui.releaseList.innerHTML =
+          '<div class="error">Use the latest published downloads below instead.</div>';
+        ui.primary.textContent = "Browse all downloads";
+        ui.primary.href = `${DOWNLOAD_ORIGIN}/`;
+        ui.detectedPlatform.textContent = "Unavailable asset";
+        ui.detectedCopy.textContent =
+          "The requested OS, architecture, or file format is not present in the current public releases.";
+        return true;
       }
 
       async function loadReleases() {
@@ -679,6 +729,9 @@
 
           const latest = releases[0];
           const { assets, recommended } = renderLatestRelease(latest);
+          if (redirectToFriendlyAsset(assets)) {
+            return;
+          }
           renderReleaseHistory(releases);
           renderDetectedTarget(recommended);
 
