@@ -1,389 +1,347 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>StrictLLM Downloads</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/assets/favicon/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/assets/favicon/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" href="/assets/favicon/favicon.ico" />
+    <link rel="manifest" href="/assets/favicon/site.webmanifest" />
     <meta
       name="description"
-      content="Automatic download routing for the latest StrictLLM desktop release."
+      content="StrictLLM is the best LLM client for secure AI chat. Download now for macOS, Windows, and Linux with persona orchestration and MCP integration."
     />
-    <style>
-      :root {
-        color-scheme: light;
-        --surface: rgba(255, 251, 245, 0.9);
-        --surface-strong: #fffdfa;
-        --surface-muted: rgba(72, 52, 29, 0.08);
-        --ink: #1f1a17;
-        --muted: #6f655d;
-        --line: rgba(72, 52, 29, 0.14);
-        --accent: #b64a25;
-        --accent-strong: #8c2f15;
-        --accent-soft: rgba(182, 74, 37, 0.12);
-        --shadow: 0 24px 80px rgba(87, 52, 19, 0.12);
-        --radius-xl: 28px;
-        --radius-lg: 18px;
-        --radius-md: 14px;
-        --max: 1120px;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: "Avenir Next", "Segoe UI", sans-serif;
-        color: var(--ink);
-        background:
-          radial-gradient(circle at top left, rgba(255, 214, 153, 0.55), transparent 36%),
-          radial-gradient(circle at top right, rgba(182, 74, 37, 0.2), transparent 28%),
-          linear-gradient(180deg, #f7f2ea 0%, #efe4d5 100%);
-      }
-
-      a {
-        color: inherit;
-      }
-
-      .page {
-        width: min(calc(100% - 32px), var(--max));
-        margin: 0 auto;
-        padding: 24px 0 56px;
-      }
-
-      .hero {
-        position: relative;
-        overflow: hidden;
-        padding: 28px;
-        border: 1px solid var(--line);
-        border-radius: var(--radius-xl);
-        background: linear-gradient(145deg, rgba(255, 252, 247, 0.95), rgba(248, 236, 223, 0.92));
-        box-shadow: var(--shadow);
-      }
-
-      .hero::after {
-        content: "";
-        position: absolute;
-        inset: auto -12% -35% auto;
-        width: 320px;
-        height: 320px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(182, 74, 37, 0.18), transparent 70%);
-        pointer-events: none;
-      }
-
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        border-radius: 999px;
-        background: var(--accent-soft);
-        color: var(--accent-strong);
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      h1 {
-        margin: 18px 0 10px;
-        max-width: 9ch;
-        font-size: clamp(2.6rem, 6vw, 5rem);
-        line-height: 0.95;
-        letter-spacing: -0.04em;
-      }
-
-      .hero p {
-        max-width: 58ch;
-        margin: 0;
-        font-size: 1.05rem;
-        line-height: 1.65;
-        color: var(--muted);
-      }
-
-      .hero-grid {
-        display: grid;
-        grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
-        gap: 24px;
-        align-items: end;
-      }
-
-      .status-card,
-      .panel,
-      .release-card {
-        border: 1px solid var(--line);
-        border-radius: var(--radius-lg);
-        background: var(--surface);
-        backdrop-filter: blur(8px);
-      }
-
-      .status-card {
-        padding: 20px;
-      }
-
-      .status-title {
-        margin: 0;
-        font-size: 0.9rem;
-        color: var(--muted);
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-      }
-
-      .status-main {
-        margin: 10px 0 0;
-        font-size: 1.7rem;
-        font-weight: 700;
-        letter-spacing: -0.03em;
-      }
-
-      .status-sub {
-        margin: 10px 0 0;
-        color: var(--muted);
-        line-height: 1.6;
-      }
-
-      .actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 22px;
-      }
-
-      .button {
-        appearance: none;
-        border: 0;
-        border-radius: 999px;
-        padding: 14px 18px;
-        font: inherit;
-        font-weight: 700;
-        cursor: pointer;
-        text-decoration: none;
-        transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
-      }
-
-      .button:hover {
-        transform: translateY(-1px);
-      }
-
-      .button-primary {
-        background: var(--accent);
-        color: #fff;
-        box-shadow: 0 12px 30px rgba(182, 74, 37, 0.24);
-      }
-
-      .button-secondary {
-        background: var(--surface-strong);
-        color: var(--ink);
-        border: 1px solid var(--line);
-      }
-
-      .section {
-        margin-top: 20px;
-      }
-
-      .panel {
-        padding: 20px;
-      }
-
-      .section-header {
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
-        align-items: baseline;
-        margin-bottom: 16px;
-      }
-
-      .section-header h2 {
-        margin: 0;
-        font-size: 1.05rem;
-        letter-spacing: -0.02em;
-      }
-
-      .section-header p {
-        margin: 0;
-        color: var(--muted);
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 16px;
-      }
-
-      .asset-card {
-        padding: 18px;
-        border-radius: var(--radius-md);
-        background: var(--surface-strong);
-        border: 1px solid var(--line);
-      }
-
-      .asset-card h3 {
-        margin: 0 0 8px;
-        font-size: 1rem;
-      }
-
-      .asset-card p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.55;
-      }
-
-      .asset-card .meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin: 14px 0 16px;
-      }
-
-      .pill {
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: var(--surface-muted);
-        color: var(--muted);
-        font-size: 0.8rem;
-        font-weight: 700;
-      }
-
-      .release-list {
-        display: grid;
-        gap: 14px;
-      }
-
-      .release-card {
-        padding: 18px;
-      }
-
-      .release-head {
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
-        align-items: baseline;
-        margin-bottom: 10px;
-      }
-
-      .release-head h3,
-      .release-head p,
-      .release-assets p {
-        margin: 0;
-      }
-
-      .release-head p,
-      .release-assets p,
-      .helper,
-      .error {
-        color: var(--muted);
-      }
-
-      .release-assets {
-        display: grid;
-        gap: 10px;
-        margin-top: 12px;
-      }
-
-      .release-assets a {
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 12px 14px;
-        border-radius: 12px;
-        text-decoration: none;
-        background: var(--surface-strong);
-        border: 1px solid var(--line);
-      }
-
-      .footer {
-        margin-top: 18px;
-        font-size: 0.95rem;
-        color: var(--muted);
-      }
-
-      .loading,
-      .error {
-        padding: 18px;
-        border-radius: var(--radius-md);
-        background: var(--surface-strong);
-        border: 1px solid var(--line);
-      }
-
-      @media (max-width: 920px) {
-        .hero-grid,
-        .grid {
-          grid-template-columns: 1fr;
+    <title>Download StrictLLM</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function() {
+        try {
+          const savedTheme = localStorage.getItem("theme");
+          const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const theme = savedTheme || (systemDark ? "dark" : "light");
+          document.documentElement.classList.remove("dark", "light");
+          document.documentElement.classList.add(theme);
+        } catch (error) {
+          console.error("Theme init error:", error);
         }
-      }
-
-      @media (max-width: 640px) {
-        .page {
-          width: min(calc(100% - 20px), var(--max));
-          padding-top: 10px;
-        }
-
-        .hero,
-        .panel,
-        .release-card {
-          padding: 18px;
-        }
-
-        .release-head,
-        .release-assets a,
-        .section-header {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-      }
-    </style>
+      })();
+    </script>
+    <link href="/assets/styles.css" rel="stylesheet" />
   </head>
-  <body>
-    <main class="page">
-      <section class="hero">
-        <div class="hero-grid">
-          <div>
-            <div class="eyebrow">StrictLLM Desktop</div>
-            <h1>Automatic Downloads</h1>
-            <p>
-              This page resolves the latest public release assets from GitHub and exposes
-              direct installer URLs. It can render a manual download page or redirect
-              straight to the recommended binary for the current machine.
-            </p>
-            <div class="actions">
-              <a class="button button-primary" id="primary-download" href="#">Loading latest build…</a>
-              <a class="button button-secondary" href="?download=1">Auto redirect link</a>
+  <body
+    data-page="download"
+    class="bg-background-light text-slate-900 antialiased selection:bg-primary/30 dark:bg-background-dark dark:text-slate-100"
+  >
+    <div class="dots-bg">
+      <div class="dots-pattern"></div>
+      <div class="gradient-overlay"></div>
+    </div>
+    <div class="fade-top"></div>
+
+    <nav class="reveal-fx fixed top-0 z-50 w-full glass-effect border-b border-border-dark/50">
+      <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+        <a href="/" class="flex items-center gap-3">
+          <img src="/assets/logo.png" alt="StrictLLM logo" class="h-10 w-10 rounded-lg" />
+          <span class="site-brand-name text-xl font-bold tracking-tight text-white">StrictLLM</span>
+        </a>
+        <nav class="site-nav-desktop scrollbar-hide items-center xl:gap-8" style="min-width: 0;">
+          <a
+            class="whitespace-nowrap text-sm font-medium text-slate-400 transition-colors hover:text-primary"
+            href="https://strictllm.com/#features"
+            >Features</a
+          >
+          <a
+            class="whitespace-nowrap text-sm font-medium text-slate-400 transition-colors hover:text-primary"
+            href="https://strictllm.com/#personas"
+            >Personas</a
+          >
+          <a
+            class="whitespace-nowrap text-sm font-medium text-slate-400 transition-colors hover:text-primary"
+            href="https://strictllm.com/#mcp"
+            >MCP Servers</a
+          >
+          <a
+            class="whitespace-nowrap text-sm font-medium text-slate-400 transition-colors hover:text-primary"
+            href="https://strictllm.com/#pricing"
+            >Pricing</a
+          >
+          <a
+            class="whitespace-nowrap text-sm font-medium text-slate-400 transition-colors hover:text-primary"
+            href="https://strictllm.com/#faq"
+            >FAQ</a
+          >
+          <a
+            class="whitespace-nowrap text-sm font-medium text-slate-400 transition-colors hover:text-primary"
+            href="https://strictllm.com/screenshots.html"
+            >Screenshots</a
+          >
+          <a
+            class="whitespace-nowrap text-sm font-medium text-slate-400 transition-colors hover:text-primary"
+            href="https://strictllm.com/contact.html"
+            >Contact</a
+          >
+        </nav>
+        <div class="site-nav-desktop-actions items-center gap-3 lg:gap-4">
+          <button
+            onclick="window.toggleTheme()"
+            class="rounded-lg bg-border-dark/50 p-2 text-slate-300 transition-all hover:bg-border-dark hover:text-white"
+            title="Toggle theme"
+            id="theme-toggle"
+          >
+            <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
+          </button>
+        </div>
+        <button
+          type="button"
+          class="site-nav-mobile-toggle inline-flex items-center justify-center rounded-lg border border-border-dark bg-border-dark/50 p-2 text-slate-300 transition-all hover:bg-border-dark hover:text-white"
+          data-mobile-nav-toggle
+          aria-expanded="false"
+          aria-label="Open navigation menu"
+        >
+          <span class="material-symbols-outlined" data-mobile-nav-icon>menu</span>
+        </button>
+      </div>
+      <div class="site-nav-mobile-panel hidden border-t border-border-dark/50 px-6 pb-5 pt-4" data-mobile-nav-panel>
+        <div class="flex flex-col gap-2">
+          <a
+            class="rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition-all hover:bg-border-dark/50 hover:text-white"
+            href="https://strictllm.com/#features"
+            >Features</a
+          >
+          <a
+            class="rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition-all hover:bg-border-dark/50 hover:text-white"
+            href="https://strictllm.com/#personas"
+            >Personas</a
+          >
+          <a
+            class="rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition-all hover:bg-border-dark/50 hover:text-white"
+            href="https://strictllm.com/#mcp"
+            >MCP Servers</a
+          >
+          <a
+            class="rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition-all hover:bg-border-dark/50 hover:text-white"
+            href="https://strictllm.com/#pricing"
+            >Pricing</a
+          >
+          <a
+            class="rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition-all hover:bg-border-dark/50 hover:text-white"
+            href="https://strictllm.com/#faq"
+            >FAQ</a
+          >
+          <a
+            class="rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition-all hover:bg-border-dark/50 hover:text-white"
+            href="https://strictllm.com/screenshots.html"
+            >Screenshots</a
+          >
+          <a
+            class="rounded-lg px-3 py-3 text-sm font-medium text-slate-300 transition-all hover:bg-border-dark/50 hover:text-white"
+            href="https://strictllm.com/contact.html"
+            >Contact</a
+          >
+        </div>
+        <div class="mt-4 grid grid-cols-1 gap-2">
+          <button
+            type="button"
+            onclick="window.toggleTheme()"
+            class="inline-flex items-center justify-center gap-2 rounded-lg border border-border-dark bg-border-dark/40 px-4 py-3 text-sm font-medium text-slate-300 transition-all hover:bg-border-dark hover:text-white"
+          >
+            <span class="material-symbols-outlined text-base">contrast</span>
+            Toggle theme
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main class="relative pt-20">
+      <div class="hero-glow"></div>
+
+      <div class="mx-auto max-w-5xl px-6 py-24">
+        <div class="mb-12 text-center">
+          <h1 class="gradient-text mb-4 text-4xl font-black md:text-5xl">Download StrictLLM</h1>
+          <p class="text-lg text-slate-400">Choose your platform to get started</p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3" id="platforms">
+          <div
+            data-platform="windows"
+            class="platform-card group relative block cursor-pointer rounded-2xl border border-border-dark bg-card-dark p-6 text-left"
+          >
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                <svg
+                  class="text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 1664 1664"
+                  width="28"
+                  height="28"
+                  fill="currentColor"
+                >
+                  <path d="M682 878v651L0 1435V878zm0-743v659H0V229zm982 743v786l-907-125V878zm0-878v794H757V125z" />
+                </svg>
+              </div>
+              <span class="recommended-badge hidden rounded-full bg-primary px-2 py-1 text-xs font-bold text-white"
+                >Recommended</span
+              >
+            </div>
+            <h3 class="mb-2 text-xl font-bold text-white">
+              Windows
+              <span
+                class="beta-badge rounded-full border border-amber-500/30 bg-amber-500/20 px-2 py-0.5 text-xs font-bold text-amber-400"
+                >Beta</span
+              >
+            </h3>
+            <p class="mb-4 text-sm text-slate-400">x64 installer for Windows 10+</p>
+            <div class="flex items-center justify-between">
+              <span class="platform-meta text-xs text-slate-500">Checking latest release...</span>
+              <span class="platform-arch text-xs font-semibold text-slate-500">...</span>
             </div>
           </div>
-          <aside class="status-card">
-            <p class="status-title">Detected target</p>
-            <p class="status-main" id="detected-platform">Checking platform…</p>
-            <p class="status-sub" id="detected-copy">
-              The page will choose the latest macOS, Windows, or Linux installer when a
-              matching asset is available.
-            </p>
-          </aside>
-        </div>
-      </section>
 
-      <section class="section panel">
-        <div class="section-header">
-          <h2>Latest Release</h2>
-          <p id="release-summary">Loading published assets…</p>
-        </div>
-        <div id="latest-grid" class="grid">
-          <div class="loading">Fetching release metadata from GitHub…</div>
-        </div>
-      </section>
+          <div
+            data-platform="mac"
+            class="platform-card group relative block cursor-pointer rounded-2xl border border-border-dark bg-card-dark p-6 text-left"
+          >
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                <svg class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"
+                  />
+                </svg>
+              </div>
+              <span class="recommended-badge hidden rounded-full bg-primary px-2 py-1 text-xs font-bold text-white"
+                >Recommended</span
+              >
+            </div>
+            <h3 class="mb-2 text-xl font-bold text-white">macOS</h3>
+            <p class="mb-4 text-sm text-slate-400">Universal binary for macOS 11+</p>
+            <div class="flex items-center justify-between">
+              <span class="platform-meta text-xs text-slate-500">Checking latest release...</span>
+              <span class="platform-arch text-xs font-semibold text-slate-500">...</span>
+            </div>
+          </div>
 
-      <section class="section panel">
-        <div class="section-header">
-          <h2>Published Releases</h2>
-          <p>Direct links for each public version</p>
+          <div
+            data-platform="linux"
+            class="platform-card group relative block cursor-pointer rounded-2xl border border-border-dark bg-card-dark p-6 text-left"
+          >
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24" fill="#ffffff">
+                  <path
+                    d="M220.8 123.3c1 .5 1.8 1.7 3 1.7c1.1 0 2.8-.4 2.9-1.5c.2-1.4-1.9-2.3-3.2-2.9c-1.7-.7-3.9-1-5.5-.1c-.4.2-.8.7-.6 1.1c.3 1.3 2.3 1.1 3.4 1.7m-21.9 1.7c1.2 0 2-1.2 3-1.7c1.1-.6 3.1-.4 3.5-1.6c.2-.4-.2-.9-.6-1.1c-1.6-.9-3.8-.6-5.5.1c-1.3.6-3.4 1.5-3.2 2.9c.1 1 1.8 1.5 2.8 1.4M420 403.8c-3.6-4-5.3-11.6-7.2-19.7c-1.8-8.1-3.9-16.8-10.5-22.4c-1.3-1.1-2.6-2.1-4-2.9c-1.3-.8-2.7-1.5-4.1-2c9.2-27.3 5.6-54.5-3.7-79.1c-11.4-30.1-31.3-56.4-46.5-74.4c-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0C132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7c-18.9 22.5-45.5 58.8-58.1 96.7c-6 17.9-8.8 36.1-6.2 53.3c-6.5 5.8-11.4 14.7-16.6 20.2c-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4c0 3.9.6 7.9 1.2 11.8c1.2 8.1 2.5 15.7.8 20.8c-5.2 14.4-5.9 24.4-2.2 31.7c3.8 7.3 11.4 10.5 20.1 12.3c17.3 3.6 40.8 2.7 59.3 12.5c19.8 10.4 39.9 14.1 55.9 10.4c11.6-2.6 21.1-9.6 25.9-20.2c12.5-.1 26.3-5.4 48.3-6.6c14.9-1.2 33.6 5.3 55.1 4.1c.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23c16.6-1.3 34.1-11 48.3-27.9c13.6-16.4 36-23.2 50.9-32.2c7.4-4.5 13.4-10.1 13.9-18.3c.4-8.2-4.4-17.3-15.5-29.7M223.7 87.3c9.8-22.2 34.2-21.8 44-.4c6.5 14.2 3.6 30.9-4.3 40.4c-1.6-.8-5.9-2.6-12.6-4.9c1.1-1.2 3.1-2.7 3.9-4.6c4.8-11.8-.2-27-9.1-27.3c-7.3-.5-13.9 10.8-11.8 23c-4.1-2-9.4-3.5-13-4.4c-1-6.9-.3-14.6 2.9-21.8M183 75.8c10.1 0 20.8 14.2 19.1 33.5c-3.5 1-7.1 2.5-10.2 4.6c1.2-8.9-3.3-20.1-9.6-19.6c-8.4.7-9.8 21.2-1.8 28.1c1 .8 1.9-.2-5.9 5.5c-15.6-14.6-10.5-52.1 8.4-52.1m-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5c4.7-4.4 13.5-14.2 27.9-14.2c7.1 0 15.6 2.3 25.9 8.9c6.3 4.1 11.3 4.4 22.6 9.3c8.4 3.5 13.7 9.7 10.5 18.2c-2.6 7.1-11 14.4-22.7 18.1c-11.1 3.6-19.8 16-38.2 14.9c-3.9-.2-7-1-9.6-2.1c-8-3.5-12.2-10.4-20-15c-8.6-4.8-13.2-10.4-14.7-15.3q-2.1-7.35 4.2-12.3m3.3 334c-2.7 35.1-43.9 34.4-75.3 18c-29.9-15.8-68.6-6.5-76.5-21.9c-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9c-1.2-7.8-1.8-15 .9-20c3.5-6.7 8.5-9.1 14.8-11.3c10.3-3.7 11.8-3.4 19.6-9.9c5.5-5.7 9.5-12.9 14.3-18c5.1-5.5 10-8.1 17.7-6.9c8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9m-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6c7.1 0 14.2-2.2 16.7-8.9c2.3-6.2 0-14.9-7.4-24.9c-13.5-18.2-38.3-32.5-38.3-32.5c-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2c2.3-1.7.8 3.2-8.7 20.8c-8.5 16.1-24.4 53.3-2.6 82.4c.6-20.7 5.5-41.8 13.8-61.5c12-27.4 37.3-74.9 39.3-112.7c1.1.8 4.6 3.2 6.2 4.1c4.6 2.7 8.1 6.7 12.6 10.3c12.4 10 28.5 9.2 42.4 1.2c6.2-3.5 11.2-7.5 15.9-9c9.9-3.1 17.8-8.6 22.3-15c7.7 30.4 25.7 74.3 37.2 95.7c6.1 11.4 18.3 35.5 23.6 64.6c3.3-.1 7 .4 10.9 1.4c13.8-35.7-11.7-74.2-23.3-84.9c-4.7-4.6-4.9-6.6-2.6-6.5c12.6 11.2 29.2 33.7 35.2 59c2.8 11.6 3.3 23.7.4 35.7c16.4 6.8 35.9 17.9 30.7 34.8c-2.2-.1-3.2 0-4.2 0c3.2-10.1-3.9-17.6-22.8-26.1c-19.6-8.6-36-8.6-38.3 12.5c-12.1 4.2-18.3 14.7-21.4 27.3c-2.8 11.2-3.6 24.7-4.4 39.9c-.5 7.7-3.6 18-6.8 29c-32.1 22.9-76.7 32.9-114.3 7.2m257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5c-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3c3.7-14.2 9.2-28.8 9.9-40.6c.8-15.2 1.7-28.5 4.2-38.7c2.6-10.3 6.6-17.2 13.7-21.1c.3-.2.7-.3 1-.5c.8 13.2 7.3 26.6 18.8 29.5c12.6 3.3 30.7-7.5 38.4-16.3c9-.3 15.7-.9 22.6 5.1c9.9 8.5 7.1 30.3 17.1 41.6c10.6 11.6 14 19.5 13.7 24.6M173.3 148.7c2 1.9 4.7 4.5 8 7.1c6.6 5.2 15.8 10.6 27.3 10.6c11.6 0 22.5-5.9 31.8-10.8c4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6s-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8c-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9c-1.5-1.4-1.9-4.6-4.3-4.9c-1.4-.1-1.8 3.7 1.7 6.5"
+                  />
+                </svg>
+              </div>
+              <span class="recommended-badge hidden rounded-full bg-primary px-2 py-1 text-xs font-bold text-white"
+                >Recommended</span
+              >
+            </div>
+            <h3 class="mb-2 text-xl font-bold text-white">
+              Linux
+              <span
+                class="beta-badge rounded-full border border-amber-500/30 bg-amber-500/20 px-2 py-0.5 text-xs font-bold text-amber-400"
+                >Beta</span
+              >
+            </h3>
+            <p class="mb-4 text-sm text-slate-400">AppImage for common distros</p>
+            <div class="flex items-center justify-between">
+              <span class="platform-meta text-xs text-slate-500">Checking latest release...</span>
+              <span class="platform-arch text-xs font-semibold text-slate-500">...</span>
+            </div>
+          </div>
         </div>
-        <div id="release-list" class="release-list">
-          <div class="loading">Loading release history…</div>
+
+        <div class="mt-8 text-center">
+          <p id="detected" class="text-sm text-slate-500"></p>
         </div>
-      </section>
+
+        <div class="mt-12 text-center">
+          <a
+            href="#"
+            id="download-btn"
+            class="inline-flex items-center justify-center gap-3 rounded-xl bg-primary px-10 py-5 text-lg font-bold text-white shadow-xl shadow-primary/20 transition-all hover:bg-primary/90"
+          >
+            <span class="material-symbols-outlined text-2xl">download</span>
+            <span id="download-label"><span id="download-copy">Download for</span> <span id="platform-name">Windows</span></span>
+          </a>
+          <div class="mt-4">
+            <a
+              href="#"
+              id="secondary-download-link"
+              class="hidden text-sm text-slate-500 transition-colors hover:text-primary"
+            ></a>
+          </div>
+        </div>
+
+        <div class="mt-20 text-center">
+          <a href="https://docs.strictllm.com" class="text-sm text-slate-400 transition-colors hover:text-primary"
+            >View Documentation</a
+          >
+          <span class="mx-3 text-slate-600">|</span>
+          <a
+            href="https://strictllm.com/changelog.html"
+            class="text-sm text-slate-400 transition-colors hover:text-primary"
+            >Changelog</a
+          >
+        </div>
+      </div>
     </main>
 
-    <script src="/app.js"></script>
+    <footer class="border-t border-border-dark py-12 px-6">
+      <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 md:flex-row">
+        <div class="flex items-center gap-3 opacity-60">
+          <img src="/assets/logo.png" alt="StrictLLM logo" class="h-8 w-8 rounded-md" />
+          <span class="site-brand-name text-lg font-bold tracking-tight text-white">StrictLLM</span>
+        </div>
+        <div class="site-footer-links flex gap-8 text-sm text-slate-500">
+          <a class="hover:text-primary" href="https://docs.strictllm.com">Documentation</a>
+          <a class="hover:text-primary" href="https://strictllm.com/screenshots.html">Screenshots</a>
+          <a class="hover:text-primary" href="https://strictllm.com/changelog.html">Changelog</a>
+          <a class="hover:text-primary" href="https://strictllm.com/privacy.html">Privacy</a>
+          <a class="hover:text-primary" href="https://strictllm.com/terms.html">Terms</a>
+          <a class="hover:text-primary" href="https://strictllm.com/sitemap.xml">Sitemap</a>
+          <a class="hover:text-primary" href="https://strictllm.com/contact.html">Contact</a>
+        </div>
+        <div class="text-sm text-slate-600">&copy; <span data-current-year></span> StrictLLM LLC. All rights reserved.</div>
+      </div>
+    </footer>
+
+    <script>
+      window.STRICTLLM_DOWNLOAD_CONFIG = {
+        downloadPageUrl: "/",
+        latestReleaseUrl: "https://api.github.com/repos/StrictLLM-LLC/download/releases/latest",
+      };
+
+      document.querySelectorAll("[data-current-year]").forEach((node) => {
+        node.textContent = new Date().getFullYear();
+      });
+
+      (function() {
+        const isDark = document.documentElement.classList.contains("dark");
+        document.getElementById("theme-icon").textContent = isDark ? "dark_mode" : "light_mode";
+      })();
+
+      window.toggleTheme = function() {
+        const isDark = document.documentElement.classList.contains("dark");
+        if (isDark) {
+          document.documentElement.classList.remove("dark");
+          document.documentElement.classList.add("light");
+          localStorage.setItem("theme", "light");
+          document.getElementById("theme-icon").textContent = "light_mode";
+        } else {
+          document.documentElement.classList.remove("light");
+          document.documentElement.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+          document.getElementById("theme-icon").textContent = "dark_mode";
+        }
+      };
+    </script>
+    <script src="/assets/site.js"></script>
+    <script src="/assets/download-page.js"></script>
   </body>
 </html>
