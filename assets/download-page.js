@@ -28,6 +28,27 @@
     mac: ["arm64", "x64"],
     linux: ["x64"],
   };
+  var platformRouteDescriptions = {
+    windows: "Preparing your Windows installer.",
+    mac: "Preparing your macOS installer.",
+    linux: "Preparing your Linux download.",
+  };
+
+  function getPlatformIconSvg(platform) {
+    if (platform === "windows") {
+      return '<svg class="text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1664 1664" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M682 878v651L0 1435V878zm0-743v659H0V229zm982 743v786l-907-125V878zm0-878v794H757V125z" /></svg>';
+    }
+
+    if (platform === "mac") {
+      return '<svg class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>';
+    }
+
+    if (platform === "linux") {
+      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="24" height="24" fill="#ffffff" aria-hidden="true"><path d="M220.8 123.3c1 .5 1.8 1.7 3 1.7c1.1 0 2.8-.4 2.9-1.5c.2-1.4-1.9-2.3-3.2-2.9c-1.7-.7-3.9-1-5.5-.1c-.4.2-.8.7-.6 1.1c.3 1.3 2.3 1.1 3.4 1.7m-21.9 1.7c1.2 0 2-1.2 3-1.7c1.1-.6 3.1-.4 3.5-1.6c.2-.4-.2-.9-.6-1.1c-1.6-.9-3.8-.6-5.5.1c-1.3.6-3.4 1.5-3.2 2.9c.1 1 1.8 1.5 2.8 1.4M420 403.8c-3.6-4-5.3-11.6-7.2-19.7c-1.8-8.1-3.9-16.8-10.5-22.4c-1.3-1.1-2.6-2.1-4-2.9c-1.3-.8-2.7-1.5-4.1-2c9.2-27.3 5.6-54.5-3.7-79.1c-11.4-30.1-31.3-56.4-46.5-74.4c-17.1-21.5-33.7-41.9-33.4-72C311.1 85.4 315.7.1 234.8 0C132.4-.2 158 103.4 156.9 135.2c-1.7 23.4-6.4 41.8-22.5 64.7c-18.9 22.5-45.5 58.8-58.1 96.7c-6 17.9-8.8 36.1-6.2 53.3c-6.5 5.8-11.4 14.7-16.6 20.2c-4.2 4.3-10.3 5.9-17 8.3s-14 6-18.5 14.5c-2.1 3.9-2.8 8.1-2.8 12.4c0 3.9.6 7.9 1.2 11.8c1.2 8.1 2.5 15.7.8 20.8c-5.2 14.4-5.9 24.4-2.2 31.7c3.8 7.3 11.4 10.5 20.1 12.3c17.3 3.6 40.8 2.7 59.3 12.5c19.8 10.4 39.9 14.1 55.9 10.4c11.6-2.6 21.1-9.6 25.9-20.2c12.5-.1 26.3-5.4 48.3-6.6c14.9-1.2 33.6 5.3 55.1 4.1c.6 2.3 1.4 4.6 2.5 6.7v.1c8.3 16.7 23.8 24.3 40.3 23c16.6-1.3 34.1-11 48.3-27.9c13.6-16.4 36-23.2 50.9-32.2c7.4-4.5 13.4-10.1 13.9-18.3c.4-8.2-4.4-17.3-15.5-29.7M223.7 87.3c9.8-22.2 34.2-21.8 44-.4c6.5 14.2 3.6 30.9-4.3 40.4c-1.6-.8-5.9-2.6-12.6-4.9c1.1-1.2 3.1-2.7 3.9-4.6c4.8-11.8-.2-27-9.1-27.3c-7.3-.5-13.9 10.8-11.8 23c-4.1-2-9.4-3.5-13-4.4c-1-6.9-.3-14.6 2.9-21.8M183 75.8c10.1 0 20.8 14.2 19.1 33.5c-3.5 1-7.1 2.5-10.2 4.6c1.2-8.9-3.3-20.1-9.6-19.6c-8.4.7-9.8 21.2-1.8 28.1c1 .8 1.9-.2-5.9 5.5c-15.6-14.6-10.5-52.1 8.4-52.1m-13.6 60.7c6.2-4.6 13.6-10 14.1-10.5c4.7-4.4 13.5-14.2 27.9-14.2c7.1 0 15.6 2.3 25.9 8.9c6.3 4.1 11.3 4.4 22.6 9.3c8.4 3.5 13.7 9.7 10.5 18.2c-2.6 7.1-11 14.4-22.7 18.1c-11.1 3.6-19.8 16-38.2 14.9c-3.9-.2-7-1-9.6-2.1c-8-3.5-12.2-10.4-20-15c-8.6-4.8-13.2-10.4-14.7-15.3q-2.1-7.35 4.2-12.3m3.3 334c-2.7 35.1-43.9 34.4-75.3 18c-29.9-15.8-68.6-6.5-76.5-21.9c-2.4-4.7-2.4-12.7 2.6-26.4v-.2c2.4-7.6.6-16-.6-23.9c-1.2-7.8-1.8-15 .9-20c3.5-6.7 8.5-9.1 14.8-11.3c10.3-3.7 11.8-3.4 19.6-9.9c5.5-5.7 9.5-12.9 14.3-18c5.1-5.5 10-8.1 17.7-6.9c8.1 1.2 15.1 6.8 21.9 16l19.6 35.6c9.5 19.9 43.1 48.4 41 68.9m-1.4-25.9c-4.1-6.6-9.6-13.6-14.4-19.6c7.1 0 14.2-2.2 16.7-8.9c2.3-6.2 0-14.9-7.4-24.9c-13.5-18.2-38.3-32.5-38.3-32.5c-13.5-8.4-21.1-18.7-24.6-29.9s-3-23.3-.3-35.2c5.2-22.9 18.6-45.2 27.2-59.2c2.3-1.7.8 3.2-8.7 20.8c-8.5 16.1-24.4 53.3-2.6 82.4c.6-20.7 5.5-41.8 13.8-61.5c12-27.4 37.3-74.9 39.3-112.7c1.1.8 4.6 3.2 6.2 4.1c4.6 2.7 8.1 6.7 12.6 10.3c12.4 10 28.5 9.2 42.4 1.2c6.2-3.5 11.2-7.5 15.9-9c9.9-3.1 17.8-8.6 22.3-15c7.7 30.4 25.7 74.3 37.2 95.7c6.1 11.4 18.3 35.5 23.6 64.6c3.3-.1 7 .4 10.9 1.4c13.8-35.7-11.7-74.2-23.3-84.9c-4.7-4.6-4.9-6.6-2.6-6.5c12.6 11.2 29.2 33.7 35.2 59c2.8 11.6 3.3 23.7.4 35.7c16.4 6.8 35.9 17.9 30.7 34.8c-2.2-.1-3.2 0-4.2 0c3.2-10.1-3.9-17.6-22.8-26.1c-19.6-8.6-36-8.6-38.3 12.5c-12.1 4.2-18.3 14.7-21.4 27.3c-2.8 11.2-3.6 24.7-4.4 39.9c-.5 7.7-3.6 18-6.8 29c-32.1 22.9-76.7 32.9-114.3 7.2m257.4-11.5c-.9 16.8-41.2 19.9-63.2 46.5c-13.2 15.7-29.4 24.4-43.6 25.5s-26.5-4.8-33.7-19.3c-4.7-11.1-2.4-23.1 1.1-36.3c3.7-14.2 9.2-28.8 9.9-40.6c.8-15.2 1.7-28.5 4.2-38.7c2.6-10.3 6.6-17.2 13.7-21.1c.3-.2.7-.3 1-.5c.8 13.2 7.3 26.6 18.8 29.5c12.6 3.3 30.7-7.5 38.4-16.3c9-.3 15.7-.9 22.6 5.1c9.9 8.5 7.1 30.3 17.1 41.6c10.6 11.6 14 19.5 13.7 24.6M173.3 148.7c2 1.9 4.7 4.5 8 7.1c6.6 5.2 15.8 10.6 27.3 10.6c11.6 0 22.5-5.9 31.8-10.8c4.9-2.6 10.9-7 14.8-10.4s5.9-6.3 3.1-6.6s-2.6 2.6-6 5.1c-4.4 3.2-9.7 7.4-13.9 9.8c-7.4 4.2-19.5 10.2-29.9 10.2s-18.7-4.8-24.9-9.7c-3.1-2.5-5.7-5-7.7-6.9c-1.5-1.4-1.9-4.6-4.3-4.9c-1.4-.1-1.8 3.7 1.7 6.5" /></svg>';
+    }
+
+    return null;
+  }
 
   function buildFriendlyAssetPath(platform, arch, format) {
     return "/" + getFriendlyPlatformName(platform) + "-" + arch + "." + format;
@@ -63,6 +84,28 @@
     if (!node) return;
     node.textContent = message;
     node.dataset.state = variant || "info";
+  }
+
+  function setRoutePlatform(platform) {
+    var titleNode = document.querySelector("[data-download-route-title]");
+    var iconNode = document.querySelector("[data-download-route-icon]");
+    var platformName = platformNames[platform];
+
+    if (titleNode) {
+      titleNode.textContent = platformName
+        ? "Downloading StrictLLM for " + platformName + "..."
+        : "Resolving download";
+    }
+
+    if (!iconNode) return;
+
+    var iconSvg = getPlatformIconSvg(platform);
+    if (iconSvg) {
+      iconNode.innerHTML = iconSvg;
+      return;
+    }
+
+    iconNode.innerHTML = '<span class="material-symbols-outlined text-4xl text-primary">download</span>';
   }
 
   function setRouteBackLink(href, label) {
@@ -468,14 +511,17 @@
   }
 
   async function handleFriendlyAssetRoute(requestDetails) {
-    setRouteStatus("Resolving the latest matching StrictLLM download...", "info");
-    setRouteBackLink(downloadPageUrl, "Back to downloads");
+    setRoutePlatform(requestDetails.platform);
+    setRouteStatus(platformRouteDescriptions[requestDetails.platform] || "Preparing your download.", "info");
 
     try {
       var downloads = extractReleaseDownloads(await fetchLatestRelease());
       var asset = findFriendlyAsset(downloads, requestDetails);
       if (asset) {
-        window.location.replace(asset.url);
+        setRouteBackLink(asset.url, "If your download does not begin, click here");
+        window.setTimeout(function () {
+          window.location.replace(asset.url);
+        }, 150);
         return true;
       }
     } catch (error) {
@@ -483,6 +529,7 @@
     }
 
     setRouteStatus("That download is not available in the current published release.", "error");
+    setRouteBackLink(downloadPageUrl, "Back to downloads");
     return false;
   }
 
@@ -490,8 +537,8 @@
     var platform = detectPlatform();
     var preferredArchs = getPreferredArchs(platform);
 
-    setRouteStatus("Detecting your platform and resolving the latest installer...", "info");
-    setRouteBackLink(downloadPageUrl, "Back to downloads");
+    setRoutePlatform(platform);
+    setRouteStatus(platformRouteDescriptions[platform] || "Preparing your download.", "info");
 
     try {
       var releaseDownloads = extractReleaseDownloads(await fetchLatestRelease());
@@ -512,7 +559,10 @@
       }
 
       if (asset) {
-        window.location.replace(asset.url);
+        setRouteBackLink(asset.url, "If your download does not begin, click here");
+        window.setTimeout(function () {
+          window.location.replace(asset.url);
+        }, 150);
         return true;
       }
     } catch (error) {
@@ -520,6 +570,7 @@
     }
 
     setRouteStatus("Automatic download is unavailable right now. Choose an installer manually instead.", "error");
+    setRouteBackLink(downloadPageUrl, "Back to downloads");
     return false;
   }
 

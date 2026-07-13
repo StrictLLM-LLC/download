@@ -45,17 +45,20 @@
     <main class="relative flex min-h-screen items-center justify-center px-6 py-16">
       <div class="hero-glow"></div>
       <div class="w-full max-w-2xl rounded-3xl border border-border-dark bg-card-dark/90 p-10 text-center shadow-2xl">
-        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+        <div
+          data-download-route-icon
+          class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-white"
+        >
           <span class="material-symbols-outlined text-4xl text-primary">download</span>
         </div>
-        <h1 class="mb-4 text-3xl font-black text-white">Resolving download</h1>
+        <h1 data-download-route-title class="mb-4 text-3xl font-black text-white">Resolving download</h1>
         <p data-download-route-status class="mx-auto max-w-xl text-base text-slate-400">
           Checking whether this URL matches the latest published StrictLLM installer.
         </p>
         <div class="mt-8">
           <a
             data-download-route-link
-            class="hidden inline-flex items-center justify-center rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-primary/90"
+            class="hidden inline-flex items-center justify-center rounded-xl border border-primary/20 bg-primary/10 px-6 py-3 text-sm font-semibold text-primary transition-all hover:bg-primary/20"
             href="/"
             >Back to downloads</a
           >
