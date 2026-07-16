@@ -73,6 +73,12 @@
     };
   }
 
+  function parsePlatformPath(pathname) {
+    var match = /^\/(windows|macos|mac|linux)\/?$/i.exec(pathname || "");
+    if (!match) return null;
+    return match[1].toLowerCase() === "macos" ? "mac" : match[1].toLowerCase();
+  }
+
   function isAutoDownloadRequest() {
     var params = new URLSearchParams(window.location.search);
     var value = params.get("download");
@@ -533,8 +539,8 @@
     return false;
   }
 
-  async function handleAutoDownloadRoute() {
-    var platform = detectPlatform();
+  async function handleAutoDownloadRoute(requestedPlatform) {
+    var platform = requestedPlatform || detectPlatform();
     var preferredArchs = getPreferredArchs(platform);
 
     setRoutePlatform(platform);
@@ -609,8 +615,11 @@
 
   async function init() {
     var friendlyAssetRequest = parseFriendlyAssetPath(window.location.pathname);
+    var platformRequest = parsePlatformPath(window.location.pathname);
     if (friendlyAssetRequest) {
       await handleFriendlyAssetRoute(friendlyAssetRequest);
+    } else if (platformRequest) {
+      await handleAutoDownloadRoute(platformRequest);
     } else if (isAutoDownloadRequest()) {
       await handleAutoDownloadRoute();
     }

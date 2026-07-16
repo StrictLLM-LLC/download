@@ -9,6 +9,7 @@ on:
       - "index.html"
       - "404.html"
       - "app.js"
+      - "assets/download-page.js"
       - "CNAME"
       - ".github/workflows/static.yml"
 
@@ -45,6 +46,8 @@ jobs:
           cp index.html _site/index.html
           cp 404.html _site/404.html
           cp app.js _site/app.js
+          mkdir -p _site/assets
+          cp assets/download-page.js _site/assets/download-page.js
           cp CNAME _site/CNAME
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
