@@ -37,6 +37,22 @@
       })();
     </script>
     <link href="https://strictllm.com/assets/styles.css" rel="stylesheet" />
+    <style>
+      .mac-startup-guide { margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid rgba(111, 148, 241, 0.2); text-align: left; }
+      .mac-startup-guide__intro { max-width: 42rem; margin: 0.75rem auto 0; text-align: center; color: #94a3b8; line-height: 1.65; }
+      .mac-startup-guide__notice { display: flex; gap: 0.75rem; margin: 1.5rem auto 2rem; padding: 1rem; max-width: 42rem; border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 0.875rem; background: rgba(245, 158, 11, 0.08); color: #cbd5e1; line-height: 1.55; }
+      .mac-startup-guide__notice .material-symbols-outlined { flex: 0 0 auto; color: #fbbf24; }
+      .mac-startup-steps { display: grid; gap: 1.25rem; }
+      .mac-startup-step { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(16rem, 1.15fr); gap: 1.5rem; align-items: center; padding: 1.25rem; border: 1px solid rgba(111, 148, 241, 0.15); border-radius: 1rem; background: rgba(10, 10, 10, 0.28); }
+      .mac-startup-step__number { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; margin-bottom: 0.75rem; border-radius: 999px; background: rgba(111, 148, 241, 0.15); color: #a9c0fa; font-weight: 800; }
+      .mac-startup-step h3 { margin: 0 0 0.4rem; color: #fff; font-size: 1.05rem; }
+      .mac-startup-step p { margin: 0; color: #94a3b8; line-height: 1.6; }
+      .mac-startup-step img { display: block; width: 100%; max-height: 24rem; object-fit: contain; border-radius: 0.75rem; background: #000; }
+      @media (max-width: 720px) {
+        .mac-startup-step { grid-template-columns: 1fr; }
+        .mac-startup-step__copy { text-align: center; }
+      }
+    </style>
   </head>
   <body
     data-page="download-route"
@@ -44,7 +60,7 @@
   >
     <main class="relative flex min-h-screen items-center justify-center px-6 py-16">
       <div class="hero-glow"></div>
-      <div class="w-full max-w-2xl rounded-3xl border border-border-dark bg-card-dark/90 p-10 text-center shadow-2xl">
+      <div class="w-full max-w-5xl rounded-3xl border border-border-dark bg-card-dark/90 p-10 text-center shadow-2xl">
         <div
           data-download-route-icon
           class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-white"
@@ -63,6 +79,46 @@
             >Back to downloads</a
           >
         </div>
+        <section class="mac-startup-guide hidden" data-mac-startup-guide aria-labelledby="mac-startup-title">
+          <h2 id="mac-startup-title" class="text-center text-2xl font-black text-white">Finish installing StrictLLM on your Mac</h2>
+          <p class="mac-startup-guide__intro">
+            StrictLLM is not yet signed with Apple, so macOS will block the first launch. Follow these steps once to approve the app and start it.
+          </p>
+          <div class="mac-startup-guide__notice">
+            <span class="material-symbols-outlined" aria-hidden="true">info</span>
+            <span>Only continue if you downloaded StrictLLM from this page. After approval, you can open it normally from Applications.</span>
+          </div>
+          <div class="mac-startup-steps">
+            <article class="mac-startup-step">
+              <div class="mac-startup-step__copy"><span class="mac-startup-step__number">1</span><h3>Try to open StrictLLM</h3><p>Open <strong>StrictLLM Chat</strong> from your Applications folder. When macOS blocks it, click <strong>Done</strong>.</p></div>
+              <img src="/mac_strictllm_startup/Mac-PostInstall-Step1.png" alt="macOS warning that StrictLLM Chat could not be opened" />
+            </article>
+            <article class="mac-startup-step">
+              <div class="mac-startup-step__copy"><span class="mac-startup-step__number">2</span><h3>Open System Settings</h3><p>Open the Apple menu in the top-left corner of your screen and choose <strong>System Settings</strong>.</p></div>
+              <img src="/mac_strictllm_startup/Mac-PostInstall-Step2.png" alt="System Settings option in the Apple menu" />
+            </article>
+            <article class="mac-startup-step">
+              <div class="mac-startup-step__copy"><span class="mac-startup-step__number">3</span><h3>Go to Privacy &amp; Security</h3><p>Select <strong>Privacy &amp; Security</strong> in the System Settings sidebar.</p></div>
+              <img src="/mac_strictllm_startup/Mac-PostInstall-Step3.png" alt="Privacy and Security selected in System Settings" />
+            </article>
+            <article class="mac-startup-step">
+              <div class="mac-startup-step__copy"><span class="mac-startup-step__number">4</span><h3>Choose Open Anyway</h3><p>Scroll to the Security section, find the StrictLLM message, and click <strong>Open Anyway</strong>.</p></div>
+              <img src="/mac_strictllm_startup/Mac-PostInstall-Step4.png" alt="Open Anyway button for StrictLLM Chat in Privacy and Security settings" />
+            </article>
+            <article class="mac-startup-step">
+              <div class="mac-startup-step__copy"><span class="mac-startup-step__number">5</span><h3>Confirm the launch</h3><p>In the confirmation dialog, click <strong>Open Anyway</strong> again.</p></div>
+              <img src="/mac_strictllm_startup/Mac-PostInstall-Step5.png" alt="macOS confirmation dialog with Open Anyway option" />
+            </article>
+            <article class="mac-startup-step">
+              <div class="mac-startup-step__copy"><span class="mac-startup-step__number">6</span><h3>Authenticate with macOS</h3><p>Use Touch ID or click <strong>Use Password</strong> and enter an administrator password.</p></div>
+              <img src="/mac_strictllm_startup/Mac-PostInstall-Step6.png" alt="Privacy and Security authentication prompt" />
+            </article>
+            <article class="mac-startup-step">
+              <div class="mac-startup-step__copy"><span class="mac-startup-step__number">7</span><h3>Allow Keychain access</h3><p>When prompted, enter your Mac login password and choose <strong>Always Allow</strong>. StrictLLM will then finish starting.</p></div>
+              <img src="/mac_strictllm_startup/Mac-PostInstall-Step7.png" alt="Keychain password prompt for StrictLLM Safe Storage" />
+            </article>
+          </div>
+        </section>
       </div>
     </main>
     <script>

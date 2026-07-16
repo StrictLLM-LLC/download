@@ -95,7 +95,12 @@
   function setRoutePlatform(platform) {
     var titleNode = document.querySelector("[data-download-route-title]");
     var iconNode = document.querySelector("[data-download-route-icon]");
+    var macStartupGuide = document.querySelector("[data-mac-startup-guide]");
     var platformName = platformNames[platform];
+
+    if (macStartupGuide) {
+      macStartupGuide.classList.toggle("hidden", platform !== "mac");
+    }
 
     if (titleNode) {
       titleNode.textContent = platformName
