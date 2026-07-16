@@ -6,11 +6,7 @@ on:
   push:
     branches: ["main"]
     paths:
-      - "index.html"
-      - "404.html"
-      - "app.js"
-      - "assets/download-page.js"
-      - "CNAME"
+      - "public_site/**"
       - ".github/workflows/static.yml"
 
   # Allows you to run this workflow manually from the Actions tab
@@ -40,20 +36,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Prepare site artifact
-        run: |
-          mkdir _site
-          cp index.html _site/index.html
-          cp 404.html _site/404.html
-          cp app.js _site/app.js
-          mkdir -p _site/assets
-          cp assets/download-page.js _site/assets/download-page.js
-          cp CNAME _site/CNAME
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the full static site needed by GitHub Pages.
-          path: '_site'
+          # Deploy the checked-in static site directly.
+          path: 'public_site'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
